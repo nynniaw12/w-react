@@ -1,0 +1,9 @@
+canvas {
+    width: calc(50vw)!important;
+    height: calc(50vw * 0.75)!important;
+}
+
+iframe
+{
+    display: none;
+}
