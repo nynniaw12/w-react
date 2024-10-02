@@ -62,7 +62,7 @@ export default function Component() {
                 <>
                     <p style={{
                         textAlign: 'center',
-                        color: '#16a34a',
+                        color: 'green',
                         fontWeight: 'semibold'
                     }}>
                         Demo Loaded Successfully!
@@ -75,7 +75,7 @@ export default function Component() {
                     onClick={handleLoad}
                     style={{
                         width: '100%',
-                        backgroundColor: '#3b82f6',
+                        backgroundColor: 'black',
                         color: 'white',
                         padding: '0.5rem 1rem',
                         borderRadius: '0.25rem',
