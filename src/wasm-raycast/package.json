@@ -1,0 +1,15 @@
+{
+  "name": "wr-raycast",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "wr_raycast_bg.wasm",
+    "wr_raycast.js",
+    "wr_raycast.d.ts"
+  ],
+  "main": "wr_raycast.js",
+  "types": "wr_raycast.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

@@ -1,91 +1,80 @@
-import "./app.module.css";
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import Demo from "./Demo";
+import Raycasting from "./Raycasting";
+
+enum APP {
+    NONE,
+    DEMO,
+    RAYCASTING
+}
 
 export default function Component() {
-    const [isLoaded, setIsLoaded] = useState(false)
-    const handleLoad = async () => {
-        const init = await import('./wasm/wgpu_learning.js');
-        await init.default();
-        console.log("WASM Loaded");
-        setIsLoaded(true);
-    }
-
-    useEffect(() => {
-        if (isLoaded) {
-            document.getElementById('_wgpu-fps')?.scrollIntoView({
-                block: "start",
-                behavior: "smooth"
-            });
-        }
-    }, [isLoaded]);
+    const [selected, setSelected] = useState(APP.NONE);
 
     return (
-        <div style={{
-            maxWidth: '50vw',
-            margin: '0 auto',
-            padding: '1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-        }}>
-            <h1 style={{
-                fontSize: '1.875rem',
-                fontWeight: 'bold',
-                textAlign: 'center'
-            }}>WebGPU Pixel Buffer Renderer</h1>
+        <>
+            {(selected == APP.NONE) && <div className="container">
+                <button className="button" onClick={() => setSelected(APP.DEMO)}>Demo</button>
+                <button className="button" onClick={() => setSelected(APP.RAYCASTING)}>Raycasting</button>
+            </div>}
+            {(selected == APP.DEMO) && < Demo />}
+            {(selected == APP.RAYCASTING) && < Raycasting />}
+            <style>{`
+            .container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                width: 100vw;
+                padding: 1rem;
+                box-sizing: border-box;
+            }
 
-            <section style={{ display: 'flex', flexDirection: 'column' }}>
-                <p>
-                    It leverages the capabilities of modern GPUs through the WebGPU API for rendering, using a texture buffer between the CPU and the GPU,
-                    similar to pixels.rs a vertex buffer of a single triangle along with a simple shader and texture sampler is used for rendering.
-                    The below example is compiled to wasm with wasm-pack from rust code and runs on the WebGL backend for WGPU.
-                </p>
-            </section>
-            <section style={{ display: 'flex', flexDirection: 'column' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 'semibold' }}>Features</h2>
-                <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-                    <li><strong>Performance</strong>: Utilizes GPU for faster rendering</li>
-                    <li><strong>Flexibility</strong>: Custom rendering algorithms</li>
-                    <li><strong>Cross-platform</strong>: WebGPU supports Vulkan, Metal, WebGL, DirectX and OpenGL</li>
-                </ul>
-            </section>
-            <section style={{ display: 'flex', flexDirection: 'column' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 'semibold' }}>Demo Controls</h2>
-                <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-                    <li><strong>T</strong> - Draw a triangle</li>
-                    <li><strong>C</strong> - Draw a circle</li>
-                    <li><strong>S</strong> - Draw a square</li>
-                    <li><strong>Up/Down Arrow</strong> - Shift color</li>
-                </ul>
-            </section>
-            {isLoaded && (
-                <>
-                    <p style={{
-                        textAlign: 'center',
-                        color: 'green',
-                        fontWeight: 'semibold'
-                    }}>
-                        Demo Loaded Successfully!
-                    </p>
-                </>
-            )}
-            <div id="_wgpu" />
-            {!isLoaded && (
-                <button
-                    onClick={handleLoad}
-                    style={{
-                        width: '100%',
-                        backgroundColor: 'black',
-                        color: 'white',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '0.25rem',
-                        fontWeight: 'semibold',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Load Demo
-                </button>
-            )}
-        </div>
-    )
+            .button {
+                width: 100%;
+                max-width: 400px;
+                background-color: black;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 0.5rem;
+                font-weight: 600;
+                font-size: 1.25rem;
+                cursor: pointer;
+                border: none;
+                margin: 0.5rem 0;
+                transition: all 0.3s ease;
+            }
+
+            .button:hover {
+                background-color: #333;
+                transform: scale(1.05);
+            }
+
+            @media (min-width: 640px) {
+                .button {
+                    font-size: 1.5rem;
+                    padding: 1.5rem 3rem;
+                }
+            }
+
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+            body {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            canvas {
+                width: calc(50vw);
+                height: calc(75vh);
+            }
+
+            iframe
+            {
+                display: none;
+            }
+            `}</style>
+
+        </>
+    );
 }

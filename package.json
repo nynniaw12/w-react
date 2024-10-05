@@ -29,7 +29,7 @@
     ],
     "overrides": [
       {
-        "files": ["./src/wasm/*"],
+        "files": ["./src/wasm*/*"],
         "rules": {
           "no-undef": "off",
           "no-restricted-globals": "off"
